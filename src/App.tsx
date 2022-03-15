@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import "regenerator-runtime/runtime.js";
 
 import { SideBar } from './components/SideBar';
 import { Content } from './components/Content';
@@ -38,6 +39,7 @@ export function App() {
   useEffect(() => {
     api.get<GenreResponseProps[]>('genres').then(response => {
       setGenres(response.data);
+      console.log('teste')
     });
   }, []);
 
@@ -51,9 +53,11 @@ export function App() {
     })
   }, [selectedGenreId]);
 
-  function handleClickButton(id: number) {
-    setSelectedGenreId(id);
-  }
+  const handleClickButton = useCallback(
+    async (id: number) => {
+      setSelectedGenreId(id);
+    }, [])
+
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row' }}>
